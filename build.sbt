@@ -7,9 +7,9 @@ lazy val root = (project in file("."))
   )
 
 lazy val docs = project
-  .in(file("mdocs"))
+  .in(file("docs"))
   .settings(
-    mdocIn := file("modules/docs"),
+    mdocIn := file("mdocs"),
     mdocOut := file("docs"),
     mdocVariables := Map("VERSION" -> version.value),
   )//.dependsOn(root)
