@@ -1,4 +1,4 @@
 package uk.co.odinconsultants.pipetypes.data
 
-case class RawPatient(age: Int)
+case class RawPatient[T](age: T)
 
