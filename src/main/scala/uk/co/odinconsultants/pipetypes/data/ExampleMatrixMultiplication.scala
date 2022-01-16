@@ -2,7 +2,7 @@ package uk.co.odinconsultants.pipetypes.data
 
 type Dimension = Int & Singleton
 
-case class Matrix[T <: Int & Singleton, U <: Int & Singleton](data: List[Double])
+case class Matrix[T <: Dimension, U <: Dimension](data: List[Double])
 
 trait MatrixMultiplication {
   def multiply[T <: Dimension, U <: Dimension, V <: Dimension]
