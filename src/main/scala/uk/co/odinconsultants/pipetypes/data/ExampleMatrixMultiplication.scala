@@ -23,7 +23,7 @@ object ExampleMatrixMultiplication {
     val _3x5 = Matrix[3, 5](List())
 
     ops.multiply(_3x7, _7x4)
-//    ops.multiply(_3x7, _3x5) // doesn't compile as expected
+//    ops.multiply(_3x7, _3x5) // doesn't compile - as expected
   }
 
 }
