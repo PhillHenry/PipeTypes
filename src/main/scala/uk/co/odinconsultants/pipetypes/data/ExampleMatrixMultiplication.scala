@@ -11,11 +11,15 @@ trait MatrixMultiplication {
 
 object ExampleMatrixMultiplication {
 
-  def main(array: Array[String]): Unit = matrixMultiplicationExample(new MatrixMultiplication {
-    override def multiply[T <: Dimension, U <: Dimension, V <: Dimension](x: Matrix[T, U],
-                                                                          y: Matrix[U, V])
-    : Matrix[T, V] = ???
-  })
+  def main(array: Array[String]): Unit = {
+    // this is responsible for orchestrating the backing software. It could be TensorFlow, Spark ...
+    val orchestration = new MatrixMultiplication {
+      override def multiply[T <: Dimension, U <: Dimension, V <: Dimension](x: Matrix[T, U],
+                                                                            y: Matrix[U, V])
+      : Matrix[T, V] = ??? 
+    }
+    matrixMultiplicationExample(orchestration)
+  }
 
   def matrixMultiplicationExample(ops: MatrixMultiplication) = {
     val _3x7 = Matrix[3, 7](List())
