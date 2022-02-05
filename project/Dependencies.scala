@@ -6,7 +6,9 @@ object Dependencies {
 	lazy val munit = "org.scalameta" %% "munit" % "0.7.26" % Test
 	lazy val iron = "io.github.iltotore" %% "iron" % "1.2.0"
 	lazy val iron_numeric = "io.github.iltotore" %% "iron-numeric" % "1.2-1.0.0"
+	lazy val scalacheck = "org.scalacheck" %% "scalacheck" % "1.15.4"
+
 
 	lazy val compileDeps = Seq(cats, refined, iron, iron_numeric)
-	lazy val testDeps    = Seq(munit)
+	lazy val testDeps    = Seq(munit, scalacheck)
 }

@@ -39,6 +39,13 @@ implicit inline def mkValidated[V <: Int & Singleton, E <: Pred](v: V): Validate
 
 
 object Demo:
+
+  type Age    = Validated[GreaterThan[-1] And LowerThan[120]]
+  type Binary = Validated[GreaterThan[-1] And LowerThan[2]]
+
+  def accepts(x: Age) = println(s"accepted age = $x")
+
+  type Number = Int & Singleton
   val a: Validated[LowerThan[10]] = 6
   
   // val x: Validated[LowerThan[10]] = 16 // Validation fails with:
@@ -50,3 +57,6 @@ object Demo:
   // val z: Validated[GreaterThan[5] And LowerThan[10]] = 16 // Validation fails with:
   // Validation failed: 16 < 10
 
+  accepts(10)
+//  accepts(b) // doesn't compile even though binary in in range
+//  accepts(1: Binary) // doesn't compile even though binary in in range
