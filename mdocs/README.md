@@ -49,8 +49,11 @@ Using PipeTypes, we merely describe the pipeline, we don't implement it.
 
 Let's see how we'd avoid the bug in 'The problem' section above.
 ```scala mdoc
-import uk.co.odinconsultants.pipetypes.data._
+import uk.co.odinconsultants.pipetypes.safety.Types._
 
-type Age    = Validated[GreaterThan[-1] And LowerThan[120]]
+object Demo {
 
+  type Age    = Validated[GreaterThan[-1] And LowerThan[120]]
+
+}
 ```

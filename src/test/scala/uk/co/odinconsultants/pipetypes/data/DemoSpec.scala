@@ -1,6 +1,7 @@
 package uk.co.odinconsultants.pipetypes.data
 
 import scala.compiletime.testing.typeCheckErrors
+import uk.co.odinconsultants.pipetypes.safety.Types._
 
 class DemoSpec extends munit.FunSuite:
   test("Those should not compile") {
