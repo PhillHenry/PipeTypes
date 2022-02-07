@@ -6,12 +6,13 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Dependencies.compileDeps ++ Dependencies.testDeps
   )
 
-lazy val docs = project
-  .in(file("docs"))
+val scala3Version = "3.1.0"
+lazy val docs = project       // new documentation project
+  .in(file("dox"))       // important: it must not be docs/
+  .dependsOn(root)
+  .enablePlugins(MdocPlugin)
   .settings(
     mdocIn := file("mdocs"),
-    mdocOut := file("docs"),
-    mdocVariables := Map("VERSION" -> version.value),
-  )//.dependsOn(root)
-   .enablePlugins(MdocPlugin)
+    scalaVersion := scala3Version,
+  )
 
