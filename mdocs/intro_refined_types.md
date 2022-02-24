@@ -5,22 +5,22 @@ Let's take a simple function, the inverse function on real numbers. We'll call i
 
 `inverse(x) = 1 / x where x ∈ ℝ ; x ≠ 0`
 
-Let's write some Scala code to represent this:
+Let's attempt to write some Scala code to represent this:
 
 ```scala mdoc
-def inverse(x: Int): Double = 1 / x
+def inverse(x: Double): Double = 1d / x
 ```
 
 Now, let's call it:
 
 ```scala mdoc
-val x = inverse(2)
+val x = inverse(2.0)
 ```
 
 Great! OK, let's be naughty:
 
-```scala mdoc:crash
-inverse(0)
+```scala mdoc
+inverse(0.0)
 ```
 
 Well, that wasn't very clever. We've hit a [mathematical singularity](https://en.wikipedia.org/wiki/Singularity_(mathematics)).
