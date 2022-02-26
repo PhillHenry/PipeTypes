@@ -58,7 +58,8 @@ Then we have a patient class:
 ```scala mdoc
 case class Patient[T](age: T)
 ```
-Now we have a method that extracts data of this type from some big data framework (eg, Spark):
+Now we have a method that extracts data of this type from some big data framework 
+(eg, Spark but it could be anything. We're only interested in the APIs):
 ```scala mdoc
 trait SparkDataset[T]
 
@@ -80,4 +81,10 @@ val dfAgeAsNumber: SparkDataset[Patient[Age]] = ???
 
 makeModel(dfAgeAsNumber)
 ```
+Similarly, if we try to turn the age field into a flag twice as in our original problem, 
+we'll see *compile time* errors:
+```scala mdoc:fail
+val dfAgeAsBinary: SparkDataset[Patient[Binary]] = ???
 
+ageToFlag(dfAgeAsBinary)
+```
