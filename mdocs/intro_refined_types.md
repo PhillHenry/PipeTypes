@@ -25,5 +25,30 @@ inverse(0.0)
 
 Well, that wasn't very clever. We've hit a [mathematical singularity](https://en.wikipedia.org/wiki/Singularity_(mathematics)).
 The function is simply not defined at `x=0`. 
+
+**Note that this is a problem at runtime.** You simple can't do anything with an `Infinity`.
+
 To be fair, the `where` clause in the original equation did warn us.
-So, how can we code this in computer code?
+So, how can we express this limitation in computer code?
+This is where refined types come in. 
+Let's write the same function this time refining the argument:
+
+```scala mdoc
+import uk.co.odinconsultants.pipetypes.safety.Types._
+
+type NonZeroDouble = Validated[GreaterThanDouble[0d] And LowerThanDouble[0d]]
+
+def inverse_refined(x: NonZeroDouble): Double = 1d / x.asInstanceOf[Double]
+```
+
+The happy path is as before:
+
+```scala mdoc
+inverse_refined(2.0: NonZeroDouble)
+```
+
+But now, our efforts at being naughty are caught at *compile time*:
+
+```scala mdoc:crash
+inverse_refined(0.0)
+```

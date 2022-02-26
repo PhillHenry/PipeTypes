@@ -27,3 +27,16 @@ object Demo:
   accepts(10)
 //  accepts(b) // doesn't compile even though binary in in range
 //  accepts(1: Binary) // doesn't compile even though binary in in range
+
+//  type NonZeroDouble = Validated[GreaterThanDouble[0d] And LowerThanDouble[0d]]
+//  def inverse_refined_double(x: NonZeroDouble): Double = 1d / x
+
+  type NonZeroInt = Validated[GreaterThan[0] Or LowerThan[0]]
+  def inverse_refined_int(x: NonZeroInt): Double = 1d / x.asInstanceOf[Double]
+  inverse_refined_int(1)
+
+  type NonZeroDouble = Validated[GreaterThanDouble[0d] Or LowerThanDouble[0d]]
+  def inverse_refined(x: NonZeroDouble): Double = 1d / x.asInstanceOf[Double]
+  inverse_refined(2.0)
+
+  @main def hello() = println("Hello, world")
