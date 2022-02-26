@@ -48,12 +48,36 @@ Using PipeTypes, we merely describe the pipeline, we don't implement it.
 ### An example
 
 Let's see how we'd avoid the bug in 'The problem' section above.
+First, let's define what age means in this domain:
 ```scala mdoc
 import uk.co.odinconsultants.pipetypes.safety.Types._
 
-object Demo {
-
-  type Age    = Validated[GreaterThan[-1] And LowerThan[120]]
-
-}
+type Age = Validated[GreaterThan[-1] And LowerThan[120]]
 ```
+Then we have a patient class:
+```scala mdoc
+case class Patient[T](age: T)
+```
+Now we have a method that extracts data of this type from some big data framework (eg, Spark):
+```scala mdoc
+trait SparkDataset[T]
+
+def getPatientsFromSpark(): SparkDataset[Patient[Age]] = ???
+```
+Then, as part of our ML pipeline, we no longer treat age not as a number but as a flag:
+```scala mdoc
+type Binary = Validated[GreaterThan[-1] And LowerThan[2]]
+
+def ageToFlag(df: SparkDataset[Patient[Age]]): SparkDataset[Patient[Binary]] = ???
+```
+Now, we can call our model method with confidence knowing we have not missed a step in the pipeline:
+```scala mdoc
+def makeModel(df: SparkDataset[Patient[Binary]]) = ???
+```
+The compiler will stop us from calling it having not turned age to a flag:
+```scala mdoc:fail
+val dfAgeAsNumber: SparkDataset[Patient[Age]] = ???
+
+makeModel(dfAgeAsNumber)
+```
+
