@@ -59,7 +59,7 @@ Then we have a patient class:
 case class Patient[T](age: T)
 ```
 Now we have a method that extracts data of this type from some big data framework 
-(eg, Spark but it could be anything. We're only interested in the APIs):
+(eg, Spark but it could be anything. We're only interested in the APIs not the implementations):
 ```scala mdoc
 trait SparkDataset[T]
 
