@@ -44,11 +44,11 @@ def inverse_refined(x: NonZeroDouble): Double = 1d / x.asInstanceOf[Double]
 The happy path is as before:
 
 ```scala mdoc
-inverse_refined(2.0: NonZeroDouble)
+//inverse_refined(2.0: NonZeroDouble)
 ```
 
 But now, our efforts at being naughty are caught at *compile time*:
 
-```scala mdoc:crash
+```scala mdoc:fail
 inverse_refined(0.0)
 ```
