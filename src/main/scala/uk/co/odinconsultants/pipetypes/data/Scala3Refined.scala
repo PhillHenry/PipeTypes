@@ -2,7 +2,6 @@ package uk.co.odinconsultants.pipetypes.data
 
 import scala.compiletime.{erasedValue, constValue, error}
 import scala.compiletime.ops.int.ToString
-//import uk.co.odinconsultants.pipetypes.safety.Types.{And, GreaterThan, LowerThan, Validated}
 import uk.co.odinconsultants.pipetypes.safety.Types._
 
 object Demo:
@@ -12,7 +11,6 @@ object Demo:
 
   def accepts(x: Age) = println(s"accepted age = $x")
 
-  type Number = Int & Singleton
   val a: Validated[LowerThan[10]] = 6
   
   // val x: Validated[LowerThan[10]] = 16 // Validation fails with:
