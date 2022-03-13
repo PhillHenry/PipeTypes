@@ -1,7 +1,6 @@
 package uk.co.odinconsultants.pipetypes.safety
 
 import scala.compiletime.{erasedValue, constValue, error}
-import scala.compiletime.ops.int.ToString
 
 
 object Types {
@@ -27,15 +26,15 @@ object Types {
         inline if constValue[V] < constValue[t]
         then new Validated[E](erasedValue[V]) {}
         else
-          inline val vs = constValue[ToString[V]]
-          inline val limit = constValue[ToString[t]]
+          inline val vs = constValue[V]
+          inline val limit = constValue[t]
           error("Validation failed: " + vs + " < " + limit)
       case _: GreaterThan[t] =>
         inline if constValue[V] > constValue[t]
         then new Validated[E](erasedValue[V]) {}
         else
-          inline val vs = constValue[ToString[V]]
-          inline val limit = constValue[ToString[t]]
+          inline val vs = constValue[V]
+          inline val limit = constValue[t]
           error("Validation failed: " + vs + " > " + limit)
       case _: And[a, b] =>
         inline mkValidated[V, a](v) match
