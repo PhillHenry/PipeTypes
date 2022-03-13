@@ -15,7 +15,7 @@ object Types {
   class LowerThanDouble[T <: Double & Singleton] extends Leaf
   class GreaterThanDouble[T <: Double & Singleton] extends Leaf
 
-  trait Validated[E <: Pred]
+  case class Validated[E <: Pred](t: Int & Singleton)
 
   /**
    * Shamelessly stolen from Michel Sitko's excellent blog post here:
@@ -25,14 +25,14 @@ object Types {
     inline erasedValue[E] match
       case _: LowerThan[t] =>
         inline if constValue[V] < constValue[t]
-        then new Validated[E] {}
+        then new Validated[E](erasedValue[V]) {}
         else
           inline val vs = constValue[ToString[V]]
           inline val limit = constValue[ToString[t]]
           error("Validation failed: " + vs + " < " + limit)
       case _: GreaterThan[t] =>
         inline if constValue[V] > constValue[t]
-        then new Validated[E] {}
+        then new Validated[E](erasedValue[V]) {}
         else
           inline val vs = constValue[ToString[V]]
           inline val limit = constValue[ToString[t]]
@@ -41,42 +41,13 @@ object Types {
         inline mkValidated[V, a](v) match
           case _: Validated[_] =>
             inline mkValidated[V, b](v) match
-              case _: Validated[_] => new Validated[E] {}
+              case _: Validated[_] => new Validated[E](erasedValue[V]) {}
       case _: Or[a, b] =>
         inline mkValidated[V, a](v) match
-          case _: Validated[_] => new Validated[E] {}
+          case _: Validated[_] => new Validated[E](erasedValue[V]) {}
           case _: Pred =>
             inline mkValidated[V, b](v) match
-              case _: Validated[_] => new Validated[E] {}
+              case _: Validated[_] => new Validated[E](erasedValue[V]) {}
 
-  implicit inline def mkValidatedDouble[V <: Double & Singleton, E <: Pred](v: V): Validated[E] =
-    inline erasedValue[E] match
-      case _: LowerThanDouble[t] =>
-        inline if constValue[V] < constValue[t]
-        then new Validated[E] {}
-        else
-//          inline val vs = constValue[ToString[V]]
-//          inline val limit = constValue[ToString[t]]
-//          error("Validation failed: " + vs + " < " + limit)
-          error("Validation failed: ")
-      case _: GreaterThanDouble[t] =>
-        inline if constValue[V] > constValue[t]
-        then new Validated[E] {}
-        else
-//          inline val vs = constValue[ToString[V]]
-//          inline val limit = constValue[ToString[t]]
-//          error("Validation failed: " + vs + " > " + limit)
-          error("Validation failed: ")
-      case _: And[a, b] =>
-        inline mkValidatedDouble[V, a](v) match
-          case _: Validated[_] =>
-            inline mkValidatedDouble[V, b](v) match
-              case _: Validated[_] => new Validated[E] {}
-      case _: Or[a, b] =>
-        inline mkValidatedDouble[V, a](v) match
-          case _: Validated[_] => new Validated[E] {}
-          case _: Pred =>
-            inline mkValidatedDouble[V, b](v) match
-              case _: Validated[_] => new Validated[E] {}
 
 }

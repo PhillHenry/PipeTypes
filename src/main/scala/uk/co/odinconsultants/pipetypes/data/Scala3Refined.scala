@@ -1,15 +1,15 @@
 package uk.co.odinconsultants.pipetypes.data
 
-import scala.compiletime.{erasedValue, constValue, error}
+import scala.compiletime.{constValue, erasedValue, error}
 import scala.compiletime.ops.int.ToString
-import uk.co.odinconsultants.pipetypes.safety.Types._
+import uk.co.odinconsultants.pipetypes.safety.Types.{Validated, *}
 
 object Demo:
 
   type Age    = Validated[GreaterThan[-1] And LowerThan[120]]
   type Binary = Validated[GreaterThan[-1] And LowerThan[2]]
 
-  def accepts(x: Age) = println(s"accepted age = $x")
+  def accepts(x: Age) = println(s"accepted age = ${x.t}")
 
   val a: Validated[LowerThan[10]] = 6
   
@@ -33,12 +33,5 @@ object Demo:
 //  def inverse_refined_int(x: NonZeroInt): Double = 1d / x.asInstanceOf[Double]
 //  inverse_refined_int(1)
 
-  import math.Fractional.Implicits.infixFractionalOps
-  import math.Integral.Implicits.infixIntegralOps
-  import math.Numeric.Implicits.infixNumericOps
-
-//  type NonZeroDouble = Validated[GreaterThanDouble[0d] Or LowerThanDouble[0d]]
-//  def inverse_refined(x: NonZeroDouble): Double = 1d / (x + 0d)
-//  inverse_refined(2.0)
 
   @main def hello() = println("Hello, world")
