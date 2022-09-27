@@ -22,6 +22,6 @@ class DemoSpec extends munit.FunSuite:
 
     def inverse_refined(x: NonZeroDouble): Double = 1d / x.t
 
-    inverse_refined(2d)
+    assert(inverse_refined(2d) == 0.5)
   }
 
