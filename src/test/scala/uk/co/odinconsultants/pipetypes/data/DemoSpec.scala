@@ -17,4 +17,11 @@ class DemoSpec extends munit.FunSuite:
   test("Those should compile (Double)") {
     val a: ValidatedDouble[LowerThanDouble[10d]] = 6d
   }
+  test("'And' clause") {
+    type NonZeroDouble = ValidatedDouble[GreaterThanDouble[0d] Or LowerThanDouble[0d]]
+
+    def inverse_refined(x: NonZeroDouble): Double = 1d / x.t
+
+    inverse_refined(2d)
+  }
 

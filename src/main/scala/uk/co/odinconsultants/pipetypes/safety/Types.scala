@@ -71,6 +71,17 @@ object Types {
           inline val vs = constValue[V]
           inline val limit = constValue[t]
           error("Validation failed: " + vs + " > " + limit)
+      case _: And[a, b] =>
+        inline mkValidatedLong[V, a](v) match
+        case _: ValidatedLong[_] =>
+          inline mkValidatedLong[V, b](v) match
+            case _: ValidatedLong[_] => new ValidatedLong[E](erasedValue[V]) {}
+      case _: Or[a, b] =>
+        inline mkValidatedLong[V, a](v) match
+        case _: ValidatedLong[_] => new ValidatedLong[E](erasedValue[V]) {}
+        case _: Pred =>
+          inline mkValidatedLong[V, b](v) match
+            case _: ValidatedLong[_] => new ValidatedLong[E](erasedValue[V]) {}
 
   implicit inline def mkValidatedDouble[V <: Double & Singleton, E <: Pred](v: V): ValidatedDouble[E] =
     inline erasedValue[E] match
@@ -88,4 +99,15 @@ object Types {
           inline val vs = constValue[V]
           inline val limit = constValue[t]
           error("Validation failed: " + vs + " > " + limit)
+      case _: And[a, b] =>
+        inline mkValidatedDouble[V, a](v) match
+        case _: ValidatedDouble[_] =>
+          inline mkValidatedDouble[V, b](v) match
+            case _: ValidatedDouble[_] => new ValidatedDouble[E](erasedValue[V]) {}
+      case _: Or[a, b] =>
+        inline mkValidatedDouble[V, a](v) match
+        case _: ValidatedDouble[_] => new ValidatedDouble[E](erasedValue[V]) {}
+        case _: Pred =>
+          inline mkValidatedDouble[V, b](v) match
+            case _: ValidatedDouble[_] => new ValidatedDouble[E](erasedValue[V]) {}
 }

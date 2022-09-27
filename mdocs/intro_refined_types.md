@@ -36,14 +36,15 @@ Let's write the same function this time refining the argument:
 ```scala mdoc
 import uk.co.odinconsultants.pipetypes.safety.Types._
 
-type NonZeroDouble = Validated[GreaterThanDouble[0d] Or LowerThanDouble[0d]]
+type NonZeroDouble = ValidatedDouble[GreaterThanDouble[0d] Or LowerThanDouble[0d]]
 
-def inverse_refined(x: NonZeroDouble): Double = 1d / x.asInstanceOf[Double]
+def inverse_refined(x: NonZeroDouble): Double = 1d / x.t
 ```
 
 The happy path is as before:
 
 ```scala mdoc
+inverse_refined(2.0)
 ```
 
 But now, our efforts at being naughty are caught at *compile time*:
