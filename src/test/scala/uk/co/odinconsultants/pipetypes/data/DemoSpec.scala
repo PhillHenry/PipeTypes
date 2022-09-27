@@ -11,4 +11,7 @@ class DemoSpec extends munit.FunSuite:
   test("Those should compile") {
     val a: Validated[LowerThan[10]] = 6
   }
+  test("Those should compile (Long)") {
+    val a: ValidatedLong[LowerThanLong[10L]] = 6L
+  }
 

@@ -6,7 +6,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Dependencies.compileDeps ++ Dependencies.testDeps
   )
 
-val scala3Version = "3.1.0"
+val scala3Version = "3.2.0"
 lazy val docs = project       // new documentation project
   .in(file("dox"))       // important: it must not be docs/
   .dependsOn(root)
