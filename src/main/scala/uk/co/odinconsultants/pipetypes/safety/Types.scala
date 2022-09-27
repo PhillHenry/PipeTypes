@@ -13,6 +13,7 @@ object Types {
   class GreaterThan[T <: Int & Singleton] extends Leaf
   class LowerThanDouble[T <: Double & Singleton] extends Leaf
   class GreaterThanDouble[T <: Double & Singleton] extends Leaf
+  case class ValidatedDouble[E <: Pred](t: Double & Singleton)
 
   case class Validated[E <: Pred](t: Int & Singleton)
   class LowerThanLong[T <: Long & Singleton] extends Leaf
@@ -66,6 +67,23 @@ object Types {
       case _: GreaterThanLong[t] =>
         inline if constValue[V] > constValue[t]
         then new ValidatedLong[E](erasedValue[V]) {}
+        else
+          inline val vs = constValue[V]
+          inline val limit = constValue[t]
+          error("Validation failed: " + vs + " > " + limit)
+
+  implicit inline def mkValidatedDouble[V <: Double & Singleton, E <: Pred](v: V): ValidatedDouble[E] =
+    inline erasedValue[E] match
+      case _: LowerThanDouble[t] =>
+        inline if constValue[V] < constValue[t]
+        then new ValidatedDouble[E](erasedValue[V]) {}
+        else
+          inline val vs = constValue[V]
+          inline val limit = constValue[t]
+          error("Validation failed: " + vs + " < " + limit)
+      case _: GreaterThanDouble[t] =>
+        inline if constValue[V] > constValue[t]
+        then new ValidatedDouble[E](erasedValue[V]) {}
         else
           inline val vs = constValue[V]
           inline val limit = constValue[t]
