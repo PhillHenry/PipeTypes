@@ -9,6 +9,8 @@ class DemoSpec extends munit.FunSuite:
       List("Validation failed: 16 < 10"))
     assertEquals(typeCheckErrors("val x: ValidatedLong[LowerThanLong[10L]] = 16L").map(_.message),
       List("Validation failed: 16L < 10L"))
+    assertEquals(typeCheckErrors("val x: ValidatedDouble[LowerThanDouble[10d]] = 16d").map(_.message),
+      List("Validation failed: 16.0d < 10.0d"))
   }
   test("Those should compile") {
     val a: Validated[LowerThan[10]] = 6

@@ -33,16 +33,12 @@ object Types {
         inline if constValue[V] < constValue[t]
         then new Validated[E](erasedValue[V]) {}
         else
-          inline val vs = constValue[ToString[V]]
-          inline val limit = constValue[ToString[t]]
-          error("Validation failed: " + vs + " < " + limit)
+          reportError[V, t](" < ")
       case _: GreaterThan[t] =>
         inline if constValue[V] > constValue[t]
         then new Validated[E](erasedValue[V]) {}
         else
-          inline val vs = constValue[ToString[V]]
-          inline val limit = constValue[ToString[t]]
-          error("Validation failed: " + vs + " > " + limit)
+          reportError[V, t](" > ")
       case _: And[a, b] =>
         inline mkValidated[V, a](v) match
           case _: Validated[_] =>
@@ -93,16 +89,12 @@ object Types {
         inline if constValue[V] < constValue[t]
         then new ValidatedDouble[E](erasedValue[V]) {}
         else
-          inline val vs = constValue[V]
-          inline val limit = constValue[t]
-          error("Validation failed: " + vs + " < " + limit)
+          reportError[V, t](" < ")
       case _: GreaterThanDouble[t] =>
         inline if constValue[V] > constValue[t]
         then new ValidatedDouble[E](erasedValue[V]) {}
         else
-          inline val vs = constValue[V]
-          inline val limit = constValue[t]
-          error("Validation failed: " + vs + " > " + limit)
+          reportError[V, t](" > ")
       case _: And[a, b] =>
         inline mkValidatedDouble[V, a](v) match
         case _: ValidatedDouble[_] =>
