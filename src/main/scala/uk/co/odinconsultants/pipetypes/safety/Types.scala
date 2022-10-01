@@ -57,22 +57,24 @@ object Types {
 
   type LongToString[X <: Long] <: String
 
+  inline def reportError[V <: Singleton, T <: Singleton](op: String) = {
+    inline val vs = scala.compiletime.codeOf(constValue[V])
+    inline val t = scala.compiletime.codeOf(constValue[T])
+    error("Validation failed: " + vs + op + t)
+  }
+
   implicit inline def mkValidatedLong[V <: Long & Singleton, E <: Pred](v: V): ValidatedLong[E] =
     inline erasedValue[E] match
       case _: LowerThanLong[t] =>
         inline if constValue[V] < constValue[t]
         then new ValidatedLong[E](erasedValue[V]) {}
         else
-          inline val vs = scala.compiletime.codeOf(constValue[V])
-          inline val limit = scala.compiletime.codeOf(constValue[t])
-          error("Validation failed: " + vs + " < " + limit)
+          reportError[V, t](" < ")
       case _: GreaterThanLong[t] =>
         inline if constValue[V] > constValue[t]
         then new ValidatedLong[E](erasedValue[V]) {}
         else
-          inline val vs = constValue[V]
-          inline val limit = constValue[t]
-          error("Validation failed: " + vs + " > " + limit)
+          reportError[V, t](" > ")
       case _: And[a, b] =>
         inline mkValidatedLong[V, a](v) match
         case _: ValidatedLong[_] =>
@@ -113,9 +115,4 @@ object Types {
           inline mkValidatedDouble[V, b](v) match
             case _: ValidatedDouble[_] => new ValidatedDouble[E](erasedValue[V]) {}
 
-  inline def reportError[V <: Int & Singleton, T: Ordering](inline t: T) = {
-    println("constValue[V]")
-    inline val vs = constValue[V]
-    error("Validation failed: " + vs + " < " + t)
-  }
 }
