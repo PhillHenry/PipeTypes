@@ -51,8 +51,6 @@ object Types {
             inline mkValidated[V, b](v) match
               case _: Validated[_] => new Validated[E](erasedValue[V]) {}
 
-  type LongToString[X <: Long] <: String
-
   inline def reportError[V <: Singleton, T <: Singleton](op: String) = {
     inline val vs = scala.compiletime.codeOf(constValue[V])
     inline val t = scala.compiletime.codeOf(constValue[T])
