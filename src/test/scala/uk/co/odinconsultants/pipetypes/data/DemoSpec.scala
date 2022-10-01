@@ -5,8 +5,10 @@ import uk.co.odinconsultants.pipetypes.safety.Types._
 
 class DemoSpec extends munit.FunSuite:
   test("Those should not compile") {
-    val errs = typeCheckErrors("val x: Validated[LowerThan[10]] = 16")
-    assertEquals(errs.map(_.message), List("Validation failed: 16 < 10"))
+    assertEquals(typeCheckErrors("val x: Validated[LowerThan[10]] = 16").map(_.message),
+      List("Validation failed: 16 < 10"))
+    assertEquals(typeCheckErrors("val x: ValidatedLong[LowerThanLong[10L]] = 16L").map(_.message),
+      List("Validation failed: 16L < 10L"))
   }
   test("Those should compile") {
     val a: Validated[LowerThan[10]] = 6
