@@ -31,9 +31,8 @@ object ExamplePipeline {
     val oldFart = ageToBinary(42)
     val asBinary = accept(oldFart)
     println(s"asBinary = $asBinary")
-//    oldFart.map(accept)
-//    val doesNotCompile = accepted(121)
-//    val doesNotCompile = accepted(0: Binary)
+//    val doesNotCompile = accept(2)
+//    val doesNotCompile = ageToBinary(121)
   }
 
 }
