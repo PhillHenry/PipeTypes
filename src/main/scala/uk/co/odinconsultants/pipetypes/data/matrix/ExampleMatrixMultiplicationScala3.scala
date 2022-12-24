@@ -9,7 +9,9 @@ type DimensionType = Int :| DescribedAs[
   "Dimensions of a matrix must be > 0"
 ]
 
-class Matrix[X <: Int & Singleton, Y <: Int & Singleton]
+type Dim = Int & Singleton
+
+class Matrix[X <: Dim, Y <: Dim]
 
 object ExampleMatrixMultiplicationScala3 {
 
