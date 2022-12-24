@@ -55,7 +55,7 @@ But now, our efforts at being naughty are caught at *compile time*:
 ```scala
 inverse_refined(0.0)
 // error:
-// A literal string is expected as an argument to `compiletime.error`. Got "Validation failed: ".+(vs).+(" > ").+(limit)
+// Validation failed: 0.0d > 0.0d
 // inverse_refined(0.0)
 //                 ^^^
 // error: 

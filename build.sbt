@@ -17,5 +17,4 @@ lazy val docs = project       // new documentation project
   .settings(
     mdocIn := file("mdocs"),
     scalaVersion := scala3Version,
-    scalacOptions := Seq("-Ytasty-reader", "-Yunstable-tasty"),
   )
