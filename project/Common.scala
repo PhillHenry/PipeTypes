@@ -10,7 +10,7 @@ object Common {
       organization := "uk.co.odinconsultants",
       version := versionArg,
 
-      scalaVersion := "3.1.0",
+      scalaVersion := "3.2.1",
       // Uncomment when scalafmt for scala 3 released: https://github.com/scalameta/scalafmt/issues/2216
       // scalafmtOnCompile := true,
 

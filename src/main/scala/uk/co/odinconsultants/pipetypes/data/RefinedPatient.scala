@@ -1,34 +1,38 @@
 package uk.co.odinconsultants.pipetypes.data
 
-import scala.math.Ordered.orderingToOrdered
-import scala.math.Ordering.Implicits.infixOrderingOps
-import io.github.iltotore.iron.constraint.refineValue
-import io.github.iltotore.iron.*, constraint.{given, *}
-import numeric.constraint.{given, *}
+//import scala.math.Ordered.orderingToOrdered
+//import scala.math.Ordering.Implicits.infixOrderingOps
+import io.github.iltotore.iron.*
+import io.github.iltotore.iron.constraint.all.*
 
 
 object ExamplePipeline {
 
-  type Age = Int  / ((0 <= ?? <= 120) DescribedAs "Reasonable ages should be between 0 and 120")
-  type BinaryInteger = Int / ((0 <= ?? <= 1) DescribedAs "Binary integer values are either 1 or 0")
+  type Age = DescribedAs[
+    Greater[0] & Less[121],
+    "Reasonable ages should be between 0 and 120"
+  ]
+  type BinaryInteger = DescribedAs[
+    StrictEqual[0] | StrictEqual[1],
+    "Binary integer values are either 1 or 0"
+  ]
 
-  def ageToBinary(age: Age): Refined[Int] = age.flatMap { age =>
-      val binary: BinaryInteger = if (age < 40) {
-        1: BinaryInteger
+  def ageToBinary(age: Int :| Age): Int :| BinaryInteger =
+      val binary: Int :| BinaryInteger = if (age < 40) {
+        1
       } else {
-        0: BinaryInteger
+        0
       }
       binary
-    }
 
-  def accept(x: BinaryInteger): BinaryInteger = {
+  def accept(x: Int :| BinaryInteger): Int :| BinaryInteger = {
     println(s"accept $x")
     x
   }
 
   def main(args: Array[String]): Unit = {
     val oldFart = ageToBinary(42)
-    val asBinary = oldFart.flatMap(x => accept(refineValue(x)))
+    val asBinary = accept(oldFart)
     println(s"asBinary = $asBinary")
 //    oldFart.map(accept)
 //    val doesNotCompile = accepted(121)
