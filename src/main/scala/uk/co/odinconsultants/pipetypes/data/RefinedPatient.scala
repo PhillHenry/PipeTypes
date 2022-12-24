@@ -1,10 +1,7 @@
 package uk.co.odinconsultants.pipetypes.data
 
-//import scala.math.Ordered.orderingToOrdered
-//import scala.math.Ordering.Implicits.infixOrderingOps
 import io.github.iltotore.iron.*
 import io.github.iltotore.iron.constraint.all.*
-
 
 object ExamplePipeline {
 
