@@ -14,23 +14,31 @@ type Dim = Int & Singleton
 
 class Matrix[X <: Dim, Y <: Dim]
 
-object ExampleMatrixMultiplicationScala3 {
+object MatrixOps {
+  class ValidMatrix[X <: Dim, Y <: Dim]()
+  opaque type Validated[X <: Dim, Y <: Dim] = ValidMatrix[X, Y]
 
-  class ValidShape[X <: Dim, Y <: Dim]()
-
-  transparent implicit inline def validate[X <: Dim, Y <: Dim](m: Matrix[X, Y]): ValidShape[X, Y] = {
+  transparent implicit inline def validate[X <: Dim, Y <: Dim](m: Matrix[X, Y]): Validated[X, Y]
+  = {
     inline erasedValue[X] match
       case x: Dim if x <= 0 => error("boom!")
-      case _ => new ValidShape[X, Y]
+      case _ => new ValidMatrix[X, Y]
   }
 
-  def itWorks[X <: Dim, Y <: Dim](x: ValidShape[X, Y]): Unit = println(x)
+  def mustBeValid[X <: Dim, Y <: Dim](x: Validated[X, Y]): Unit = println(x)
+}
+
+object ExampleMatrixMultiplicationScala3 {
+
 
   def main(args: Array[String]): Unit = {
     println("hello, world")
-    itWorks(new Matrix[3, 2])
-//    val x = new Matrix[-3, -2]
-//    itWorks(x)
+    val invalid = new Matrix[-3, -2]
+    val valid = new Matrix[3, 2]
+    import MatrixOps.*
+    import MatrixOps.validate
+    mustBeValid(valid)
+//    mustBeValid(invalid) // boom!
   }
 
 }
