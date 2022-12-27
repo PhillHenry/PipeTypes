@@ -2,7 +2,6 @@ package uk.co.odinconsultants.pipetypes.data.matrix
 
 import io.github.iltotore.iron.*
 import io.github.iltotore.iron.constraint.all.{DescribedAs, *}
-import uk.co.odinconsultants.pipetypes.data.Matrix
 import scala.compiletime.{erasedValue, constValue, error}
 
 type DimensionType = Int :| DescribedAs[
