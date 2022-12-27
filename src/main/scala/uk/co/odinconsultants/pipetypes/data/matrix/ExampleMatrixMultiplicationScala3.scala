@@ -20,13 +20,13 @@ object MatrixOps {
 
   class ValidD[Dim]
   type D = ValidD[Dim]
-  class Matrix[X <: ValidD[Dim], Y <: ValidD[Dim]]
+  class Matrix[X <: D, Y <: D]
   transparent implicit inline def toValid[X <: Dim](m: X): ValidD[X] = {
     inline if (m <= 0) error("boom!") else new ValidD[X]
   }
-  def mustBeValid(x: ValidD[Dim]): Unit = println(x)
+  def mustBeValid(x: D): Unit = println(x)
 
-  def squareMatrix[X <: ValidD[Dim]](x: X): Matrix[X, X] = new Matrix[X, X]
+  def squareMatrix[X <: D](x: X): Matrix[X, X] = new Matrix[X, X]
 }
 
 object ExampleMatrixMultiplicationScala3 {
