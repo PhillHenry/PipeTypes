@@ -18,7 +18,7 @@ object MatrixOps {
   opaque type Validated[X <: Dim, Y <: Dim] = ValidMatrix[X, Y]
 
 
-  class ValidD[Dim]
+  class ValidD[+Dim]
   type D = ValidD[Dim]
   class Matrix[X <: D, Y <: D]
   transparent implicit inline def toValid[X <: Dim](m: X): ValidD[X] = {
@@ -27,6 +27,11 @@ object MatrixOps {
   def mustBeValid(x: D): Unit = println(x)
 
   def squareMatrix[X <: D](x: X): Matrix[X, X] = new Matrix[X, X]
+
+  transparent inline def squareMatrixType[X <: Dim]: Matrix[ValidD[X], ValidD[X]] = inline erasedValue
+    [X] match
+    case x: Dim if x <= 0 => error("boom!")
+    case _ => new Matrix[ValidD[X], ValidD[X]]
 }
 
 object ExampleMatrixMultiplicationScala3 {
@@ -39,6 +44,8 @@ object ExampleMatrixMultiplicationScala3 {
     //    val invalid = new Matrix[-3, -2]
 //    val valid = new Matrix[3, 2]
     squareMatrix(2)
+    squareMatrixType[2]
+//    squareMatrixType[-2] // boom!
 //    squareMatrix(-2) // boom!
     mustBeValid(1)
 //    mustBeValid(-1) // boom!
