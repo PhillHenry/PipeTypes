@@ -9,5 +9,5 @@ class MatrixSpec extends munit.FunSuite:
     assertEquals(typeCheckErrors("invert(Matrix[1, 2])").size, 1)
   }
   test("These shoule compile") {
-    invert(Matrix[2, 2])
+    invert(transpose(Matrix[2, 2]))
   }
