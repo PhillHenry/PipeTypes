@@ -9,7 +9,7 @@ object Matrix {
 
   opaque type M[X <: D, Y <: D] = Matrix[X, Y]
 
-  transparent inline def apply[X <: D, Y <: D]: M[X, Y] = inline erasedValue[X] match
+  transparent inline def apply[X <: D, Y <: D](xs: List[Double]): M[X, Y] = inline erasedValue[X] match
     case x: D if x <= 0 => error(ValidDimensionMsg)
     case _              =>
       inline erasedValue[Y] match
