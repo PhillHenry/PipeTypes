@@ -8,6 +8,7 @@ object Matrix {
   inline val ValidDimensionMsg = "Matrix dimensions must be > 0"
 
   opaque type M[X <: D, Y <: D] = Matrix[X, Y]
+  
   transparent inline def apply[X <: D, Y <: D]: M[X, Y] = inline erasedValue[X] match
     case x: D if x <= 0 => error(ValidDimensionMsg)
     case _              =>
@@ -15,6 +16,8 @@ object Matrix {
         case y: D if y <= 0 => error(ValidDimensionMsg)
         case _              => new Matrix[X, Y]
 
+  transparent inline def invert[X <: D](m: M[X, X]): M[X, X] = m // TODO the actual inversion
+  
   def main(args: Array[String]): Unit = {
     println("hello, world")
     Matrix[1, 2]
