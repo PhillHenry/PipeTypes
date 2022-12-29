@@ -9,16 +9,16 @@ object Matrix {
   inline val InvalidDimensionMsg    = "Matrix dimensions must be > 0"
   inline val InvalidCoefficientsMsg = "Number of coefficients incompatible with dimensions"
 
-  type M[X <: D, Y <: D] = Matrix[X, Y]
+  opaque type M[X <: D, Y <: D] = Matrix[X, Y]
 
   transparent inline def apply[X <: D, Y <: D](inline xs: List[Double]): M[X, Y] =
     import scala.compiletime.*
     import scala.compiletime.ops.int.*
     inline erasedValue[X] match
-      case x: D if x <= 0 => error("Matrix dimensions must be > 0")
+      case x: D if x <= 0 => error(InvalidDimensionMsg)
       case x              =>
         inline erasedValue[Y] match
-          case y: D if y <= 0                     => error("Matrix dimensions must be > 0")
+          case y: D if y <= 0                     => error(InvalidDimensionMsg)
           // "inline match can only work on the static type of a value. List("a", "b") has the
           // type List[String] which can not be further inspected"
           // https://github.com/lampepfl/dotty/issues/14917
