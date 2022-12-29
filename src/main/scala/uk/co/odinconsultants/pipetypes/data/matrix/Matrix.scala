@@ -1,6 +1,5 @@
 package uk.co.odinconsultants.pipetypes.data.matrix
 import scala.compiletime.{erasedValue, constValue, error}
-//import io.github.iltotore.iron.*, constraint.*, iterable.constraint.*
 
 type D = Int & Singleton
 class Matrix[X <: D, Y <: D]
@@ -22,10 +21,7 @@ object Matrix {
           // "inline match can only work on the static type of a value. List("a", "b") has the
           // type List[String] which can not be further inspected"
           // https://github.com/lampepfl/dotty/issues/14917
-          case y: D if (x * y) != checkLength(xs) =>
-            error(
-              "Number of coefficients incompatible with dimensions"
-            ) // "Cannot reduce inline match..."
+          case y: D if (x * y) != checkLength(xs) => error(InvalidCoefficientsMsg)
           case _                                  => new Matrix[X, Y]
   transparent inline def checkLength(inline xs: List[Double]): Int               =
     ${ checkLengthC('xs) }
