@@ -12,5 +12,5 @@ class MatrixSpec extends munit.FunSuite:
     assertEquals(typeCheckErrors("invert(Matrix[1, 2](List(1d, 2d)))").size, 1)
   }
   test("These should compile") {
-    invert(transpose(Matrix[2, 2](xs)))
+    invert(transpose(Matrix[2, 2](List(1d, 2d, 3d, 4d))))
   }
